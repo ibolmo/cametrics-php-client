@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__).'/../Cametrics.class.php';
 
-Cametrics::initialize('agljYW1ldHJpY3NyFAsSDm15YXBwX2NhbXBhaWduGAIM');
+Cametrics::initialize('agljYW1ldHJpY3NyFQsSDm15YXBwX2NhbXBhaWduGKEfDA');
 
 Cametrics::measure('test');
 Cametrics::measure('namespace.value');

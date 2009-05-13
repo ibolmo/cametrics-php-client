@@ -1,14 +1,12 @@
 <?php
 
-require_once dirname(__FILE__).'/vendor/sfWebBrowser.class.php';
-
 class Cametrics
 {
     private static $instance = null;
     public $options = array(
         'secret.key' => '',
         'url.protocol' => 'http',
-        'url.host' => 'localhost',
+        'url.host' => 'cametrics.appspot.com',
         'url.pattern' => '%s/%s/%s',
         'namespace.separators' => '/[^\w]+/',
         'response.format' => 'json'
