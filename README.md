@@ -7,3 +7,9 @@ Getting Started
  4. `Cametrics::initialize('your_secret_key') # visit: http://cametrics.appspot.com/, register, and create a campaign/project` 
  5. Insert in your code:
     `Cametrics::measure('your namespace', 'value', 'type of value')`
+    
+    
+Plans
+-----
+### Error/Log Handler
+A very low level HTTP calls for logging errors and notices created by the client, by using `set_error_handler`.
