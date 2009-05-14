@@ -8,8 +8,16 @@ Getting Started
  5. Insert in your code:
     `Cametrics::measure('your namespace', 'value', 'type of value')`
     
+Notes
+-----
+### DateTime Format
+Usage:
+  `Cametrics::measure('visistor.arrived', date(Cametrics::DATETIME_FORMAT), 'datetime');`
     
 Plans
 -----
 ### Error/Log Handler
-A very low level HTTP calls for logging errors and notices created by the client, by using `set_error_handler`.
+A very low level HTTP calls for logging errors and notices created by the client, by using `set_error_handler`
+
+### Client should validate calls before they occur, to reduce usage
+DateTime, as an example, requires a certain format.

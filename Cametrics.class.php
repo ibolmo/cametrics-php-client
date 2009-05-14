@@ -11,6 +11,7 @@ class Cametrics
         'namespace.separators' => '/[^\w]+/',
         'response.format' => 'json'
     );
+    const DATETIME_FORMAT = 'Y-m-d H:i:s';
     
     function __construct($options = array())
     {
