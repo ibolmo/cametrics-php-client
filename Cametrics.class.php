@@ -12,7 +12,7 @@ class Cametrics
         'secret.key' => '',
         'url.protocol' => 'http',
         'url.host' => 'cametrics.appspot.com',
-        'url.pattern' => '%s/%s/%s',
+        'url.pattern' => '%s/%s',
         'namespace.separators' => '/[^\w]+/',
         'response.format' => 'json'
     );
@@ -47,7 +47,7 @@ class Cametrics
             /**
              * @todo Elevation, see self::$axes
              */
-            case 'location': case 'coordinate':
+            case 'location': case 'coordinate': case 'gps':
                 if (is_array($value)){
                     $coord = array('x' => null, 'y' => null);
                     foreach (self::$axes as $axis => $tests){
@@ -84,12 +84,12 @@ class Cametrics
         
         $uri = vsprintf("{$this->options['url.protocol']}://{$this->options['url.host']}/{$this->options['url.pattern']}", array(
             $this->options['secret.key'],
-            $this->mapNamespace($namespace),
-            urlencode($value)
+            $this->mapNamespace($namespace)
         ));
         syslog(LOG_NOTICE, sprintf('Cametrics posting: %s', $uri));
         
         $this->browser->post($uri, array(
+            'value' => $value,
             'type' => $type,
             'format' => $this->options['response.format']
         ));

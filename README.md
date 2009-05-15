@@ -15,7 +15,7 @@ Usage:
 
     Cametrics::measure('visistor.arrived', date(Cametrics::DATETIME_FORMAT), 'datetime');
 
-### Location/Coordinate
+### Location/Coordinate/GPS
 The difference between a location and coordinate is the naming convention for the axes. For location, the typical axes are: `longitude` and `latitude`. For coordinates, `x` and `y`. 
 
 The client can accept 5 different ways to input the location.
