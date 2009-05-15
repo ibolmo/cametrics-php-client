@@ -3,6 +3,11 @@
 class Cametrics
 {
     private static $instance = null;
+    public static $axes = array(
+        'x' => array('lng', 'longitude', 'x'),
+        'y' => array('lat', 'latitude', 'y'),
+        #'z' => array('elevation', 'altitude', 'z')
+    );
     public $options = array(
         'secret.key' => '',
         'url.protocol' => 'http',
@@ -36,8 +41,40 @@ class Cametrics
         return self::$instance;
     }
     
+    public static function prepare($value, $type)
+    {
+        switch ($type){
+            /**
+             * @todo Elevation, see self::$axes
+             */
+            case 'location': case 'coordinate':
+                if (is_array($value)){
+                    $coord = array('x' => null, 'y' => null);
+                    foreach (self::$axes as $axis => $tests){
+                        foreach ($tests as $test){
+                            if (array_key_exists($test, $value)){
+                                $coord[$axis] = $value[$test];
+                                break;
+                            }
+                        }
+                    }
+                    if (join('', array_keys($value)) == '01'){
+                        syslog(LOG_WARNING, sprintf('Cametrics guessing that value, %s, is (%s, %s)', $value, $value[0], $value[1]));
+                        $coord['x'] = $value[0];
+                        $coord['y'] = $value[1];
+                    } else if (is_null($coord['x']) or is_null($coord['y'])){
+                        syslog(LOG_ERR, sprintf('Cametrics could not prepare: %s', $value));
+                        return null;
+                    }
+                    return $coord['x'].','.$coord['y'];
+                }
+        }
+        return $value;
+    }
+    
     public static function measure($namespace, $value = 1, $type = 'number')
     {
+        $value = self::prepare($value, $type);
         self::getInstance()->post($namespace, $value, $type);
     }
     
