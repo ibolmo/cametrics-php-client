@@ -20,3 +20,4 @@ assert(Cametrics::prepare(array('lat' => '1', 'longitude' => 0), 'location') == 
 assert(Cametrics::prepare(array('latitude' => '1', 'lng' => 0), 'location') == '0,1');
 assert(Cametrics::prepare(array('latitude' => '1', 'longitude' => 0), 'location') == '0,1');
 assert(Cametrics::prepare(array('0','1'), 'location') == '0,1');
+
