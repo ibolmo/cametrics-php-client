@@ -13,7 +13,7 @@ class Cametrics
         'url.protocol' => 'http',
         'url.host' => 'cametrics.appspot.com',
         'url.pattern' => '%s/%s',
-        'namespace.separators' => '/[^\w]+/',
+        'namespace.separators' => '/[^a-zA-Z0-9]/',
         'response.format' => 'json'
     );
     const DATETIME_FORMAT = 'Y-m-d H:i:s';
@@ -41,12 +41,12 @@ class Cametrics
         return self::$instance;
     }
     
+    /**
+     * @todo Elevation, see self::$axes
+     */
     public static function prepare($value, $type)
     {
         switch ($type){
-            /**
-             * @todo Elevation, see self::$axes
-             */
             case 'location': case 'coordinate': case 'gps':
                 if (is_array($value)){
                     $coord = array('x' => null, 'y' => null);
