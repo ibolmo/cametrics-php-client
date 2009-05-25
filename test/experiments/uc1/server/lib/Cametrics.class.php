@@ -23,38 +23,7 @@ class Cametrics
     function __construct($options = array())
     {
         $this->setOptions($options);
-        $this->data = array();
         $this->browser = new sfWebBrowser();
-    }
-    
-    public function __destruct()
-    {
-        $this->_post_data();
-    }
-    
-    protected function _post_data()
-    {
-        if (!$this->options['secret.key']) throw CametricsException('No Secret Key Specified. Use '.get_class(self).'::initialize');
-        
-        $uri = "{$this->options['url.protocol']}://{$this->options['url.host']}/{$this->options['secret.key']}/";
-        syslog(LOG_NOTICE, sprintf('Cametrics posting: %s', $uri));
-             
-        $this->browser->post($uri, array(
-            'type' => 'bulk',
-            'data' => json_encode($this->data), # HTTP Post portability issue/workaround
-            'format' => $this->options['response.format']
-        ));
-        
-        $message = sprintf('Cametrics post of: %s, returned (%s): %s', $uri, $this->browser->getResponseCode(), $this->browser->getResponseText());
-        switch ($this->browser->getResponseCode()) {
-            case 200:
-                syslog(LOG_INFO, $message);
-                return true;
-            default:
-                # ..
-                syslog(LOG_ERR, $message);
-                return false;
-        }
     }
     
     public function initialize($key, $options = array())
@@ -80,9 +49,6 @@ class Cametrics
     public static function prepare($value, $type)
     {
         switch ($type){
-            case 'bulk':
-                syslog(LOG_ERR, sprintf('Cametrics script should not use type of "bulk" for value %s', $value));
-                return null;
             case 'string': case 'str': case 'text':
                 return trim((string) $value);
             case 'location': case 'coordinate': case 'gps':
@@ -122,11 +88,30 @@ class Cametrics
     
     public function post($namespace, $value, $type)
     {
-        $this->data[] = array(
-            'namespace' => $this->mapNamespace($namespace),
+        if (!$this->options['secret.key']) throw CametricsException('No Secret Key Specified. Use '.get_class(self).'::initialize');
+        
+        $uri = vsprintf("{$this->options['url.protocol']}://{$this->options['url.host']}/{$this->options['url.pattern']}", array(
+            $this->options['secret.key'],
+            $this->mapNamespace($namespace)
+        ));
+        syslog(LOG_NOTICE, sprintf('Cametrics posting: %s', $uri));
+        
+        $this->browser->post($uri, array(
             'value' => $value,
             'type' => $type,
-        );
+            'format' => $this->options['response.format']
+        ));
+        
+        $message = sprintf('Cametrics post of: %s, returned %s', $uri, $this->browser->getResponseText());
+        switch ($this->browser->getResponseCode()) {
+            case 200:
+                syslog(LOG_INFO, $message);
+                return true;
+            default:
+                # ..
+                syslog(LOG_ERR, $message);
+                return false;
+        }
     }
     
     public function mapNamespace($namespace = '')

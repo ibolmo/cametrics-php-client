@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__).'/../Cametrics.class.php';
 
-Cametrics::initialize('agljYW1ldHJpY3NyFAsSDm15YXBwX2NhbXBhaWduGAIM', array('url.host' => 'localhost'));
+Cametrics::initialize('ahBjYW1ldHJpY3Mtc3RyZXNzchULEg5teWFwcF9jYW1wYWlnbhjTAQw', array('url.host' => 'localhost'));
 
 #foreach (range(0, 5) as $i){
 #  Cametrics::measure('test');
@@ -11,13 +11,14 @@ Cametrics::initialize('agljYW1ldHJpY3NyFAsSDm15YXBwX2NhbXBhaWduGAIM', array('url
 #Cametrics::measure('namespace.value');
 #Cametrics::measure('namespace.column.number', 10, 'number');
 #Cametrics::measure('namespace.test', 12.125, 'number');
-Cametrics::measure('namespace.column.string', 'string value', 'string');
-Cametrics::measure('namespace.column.string', 'string+value', 'string');
-Cametrics::measure('namespace.column.string', 1309509, 'string');
-Cametrics::measure('namespace.column.string', '', 'string');
-Cametrics::measure('namespace.column.string', null, 'string');
-Cametrics::measure('namespace.column.string', 356996016212614, 'string');
-Cametrics::measure('namespace.column.string', '356996016212614'."\n", 'string');
+
+#Cametrics::measure('namespace.column.string', 'string value', 'string');
+#Cametrics::measure('namespace.column.string', 'string+value', 'string');
+#Cametrics::measure('namespace.column.string', 1309509, 'string');
+#Cametrics::measure('namespace.column.string', '', 'string');
+#Cametrics::measure('namespace.column.string', null, 'string');
+#Cametrics::measure('namespace.column.string', 356996016212614, 'string');
+#Cametrics::measure('namespace.column.string', '356996016212614'."\n", 'string');
 #
 #Cametrics::measure('data.arrived', time(), 'timestamp');
 #Cametrics::measure('data.arrived', date(Cametrics::DATETIME_FORMAT), 'date');
