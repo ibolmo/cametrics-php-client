@@ -2,6 +2,8 @@
 
 class Cametrics
 {
+    public static $version = 0.01;
+    
     private static $instance = null;
     public static $axes = array(
         'x' => array('lng', 'longitude', 'x'),
@@ -47,6 +49,8 @@ class Cametrics
     public static function prepare($value, $type)
     {
         switch ($type){
+            case 'string': case 'str': case 'text':
+                return trim((string) $value);
             case 'location': case 'coordinate': case 'gps':
                 if (is_array($value)){
                     $coord = array('x' => null, 'y' => null);
@@ -74,8 +78,12 @@ class Cametrics
     
     public static function measure($namespace, $value = 1, $type = 'number')
     {
-        $value = self::prepare($value, $type);
-        self::getInstance()->post($namespace, $value, $type);
+        try {
+            $value = self::prepare($value, $type);
+        } catch (Exception $e){
+            return syslog(LOG_ERR, sprintf('Cametrics could not prepare: %s', $value));
+        }
+        if ($value != null && $value != '') self::getInstance()->post($namespace, $value, $type);
     }
     
     public function post($namespace, $value, $type)

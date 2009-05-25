@@ -17,6 +17,7 @@ Cametrics::measure('namespace.column.string', 1309509, 'string');
 Cametrics::measure('namespace.column.string', '', 'string');
 Cametrics::measure('namespace.column.string', null, 'string');
 Cametrics::measure('namespace.column.string', 356996016212614, 'string');
+Cametrics::measure('namespace.column.string', '356996016212614'."\n", 'string');
 #
 #Cametrics::measure('data.arrived', time(), 'timestamp');
 #Cametrics::measure('data.arrived', date(Cametrics::DATETIME_FORMAT), 'date');
