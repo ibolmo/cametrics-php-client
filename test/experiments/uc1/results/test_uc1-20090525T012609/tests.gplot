@@ -1,8 +1,0 @@
-set output "/root/cametrics/test_uc1-20090525T012609/tests.png"
-set title "Successful Tests Per Second"
-set terminal png size 550,480
-set xlabel "Concurrent Users"
-set ylabel "Test/s"
-set grid back
-set xrange [0:40]
-plot "/root/cametrics/test_uc1-20090525T012609/tests.data" u 1:2 w linespoints lw 2 lt 2 t "STPS"
