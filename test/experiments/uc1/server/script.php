@@ -2,7 +2,7 @@
 define('WITH_CAMETRICS', isset($_REQUEST['use']));
 
 if (WITH_CAMETRICS){
-    require_once './lib/Cametrics.class.php';
+    require_once(isset($_REQUEST['bulk']) ? './lib/Cametrics.bulk.class.php' : './lib/Cametrics.class.php');
     Cametrics::initialize('ahBjYW1ldHJpY3Mtc3RyZXNzchULEg5teWFwcF9jYW1wYWlnbhjpBww', array('url.host' => 'cametrics-stress.appspot.com'));
 }
 
