@@ -2,15 +2,15 @@
 
 require_once dirname(__FILE__).'/../Cametrics.class.php';
 
-Cametrics::initialize('agljYW1ldHJpY3NyDgsSCENhbXBhaWduGAIM', array('url.host' => 'localhost'));
+Cametrics::initialize('agljYW1ldHJpY3NyEAsSCENhbXBhaWduGLv1AQw');
 
-foreach (range(0, 5) as $i){
-  Cametrics::measure('test');
-  Cametrics::measure('random', rand());
-}
-#Cametrics::measure('namespace.value');
-#Cametrics::measure('namespace.column.number', 10, 'number');
-#Cametrics::measure('namespace.test', 12.125, 'number');
+#Wforeach (range(0, 5) as $i){
+#W  Cametrics::measure('test');
+#W  Cametrics::measure('random', rand());
+#W}
+#WCametrics::measure('namespace.value');
+#WCametrics::measure('namespace.column.number', 10, 'number');
+#WCametrics::measure('namespace.test', 12.125, 'number');
 #
 #$plants = array(
 #  'PoisonHemlock',
@@ -58,12 +58,12 @@ foreach (range(0, 5) as $i){
 #Cametrics::measure('person.trace', array('latitude' => 34.06661858839023, 'longitude' => -118.45464885234833), 'location');
 #Cametrics::measure('person.trace', array('lat' => 34.075910092379544, 'x' => -118.45564126968384), 'location');
 #
-#$json = dirname(__FILE__).'/fixtures/gps_trace.json';
-#$coordinates = json_decode(file_get_contents($json), true);
-#foreach ($coordinates as $coordinate){
-#    Cametrics::measure('test/trace', array('latitude' => $coordinate['latitude'], 'longitude' => $coordinate['longitude']), 'location');
-#}
-
+$json = dirname(__FILE__).'/fixtures/gps_trace.json';
+$coordinates = json_decode(file_get_contents($json), true);
+foreach ($coordinates as $coordinate){
+    Cametrics::measure('test/trace', array('latitude' => $coordinate['latitude'], 'longitude' => $coordinate['longitude']), 'location');
+}
+#
 #Cametrics::measure('mouse.position', array('x' => 10, 'y' => 10), 'coordinate');
 
 # Failing Tests

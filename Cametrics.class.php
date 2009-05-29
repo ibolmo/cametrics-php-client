@@ -15,7 +15,8 @@ class Cametrics
         'url.protocol' => 'http',
         'url.host' => 'cametrics.appspot.com',
         'namespace.separators' => '/[^a-zA-Z0-9]+/',
-        'response.format' => 'json'
+        'response.format' => 'json',
+        'request.size' => 50,
     );
     const DATETIME_FORMAT = 'Y-m-d H:i:s';
     
@@ -28,7 +29,9 @@ class Cametrics
     
     public function __destruct()
     {
-        $this->_post_data();
+        if (count($this->data)){
+           $this->_post_data();
+        }
     }
     
     protected function _post_data()
@@ -37,12 +40,13 @@ class Cametrics
         
         $uri = "{$this->options['url.protocol']}://{$this->options['url.host']}/measure/{$this->options['secret.key']}/";
         syslog(LOG_NOTICE, sprintf('Cametrics posting: %s', $uri));
-             
+        
         $this->browser->post($uri, array(
             'type' => 'bulk',
             'data' => json_encode($this->data), # HTTP Post portability issue/workaround
             'format' => $this->options['response.format']
         ));
+        $this->data = array(); 
         
         $message = sprintf('Cametrics post of: %s, returned (%s): %s', $uri, $this->browser->getResponseCode(), $this->browser->getResponseText());
         switch ($this->browser->getResponseCode()) {
@@ -126,6 +130,9 @@ class Cametrics
             'value' => $value,
             'type' => $type,
         );
+        if (count($this->data) > $this->options['request.size']){
+            $this->_post_data();
+        }
     }
     
     public function mapNamespace($namespace = '')
