@@ -14,7 +14,6 @@ class Cametrics
         'secret.key' => '',
         'url.protocol' => 'http',
         'url.host' => 'cametrics.appspot.com',
-        'url.pattern' => '%s/%s',
         'namespace.separators' => '/[^a-zA-Z0-9]+/',
         'response.format' => 'json'
     );
@@ -36,7 +35,7 @@ class Cametrics
     {
         if (!$this->options['secret.key']) throw CametricsException('No Secret Key Specified. Use '.get_class(self).'::initialize');
         
-        $uri = "{$this->options['url.protocol']}://{$this->options['url.host']}/{$this->options['secret.key']}/";
+        $uri = "{$this->options['url.protocol']}://{$this->options['url.host']}/measure/{$this->options['secret.key']}/";
         syslog(LOG_NOTICE, sprintf('Cametrics posting: %s', $uri));
              
         $this->browser->post($uri, array(
