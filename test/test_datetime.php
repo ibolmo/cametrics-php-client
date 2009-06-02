@@ -1,8 +1,6 @@
 <?php
 
-require_once dirname(__FILE__).'/../Cametrics.class.php';
-
-Cametrics::initialize('agljYW1ldHJpY3NyFAsSDm15YXBwX2NhbXBhaWduGAIM', array('url.host' => 'localhost'));
+require_once dirname(__FILE__).'/fixtures/cametrics.helper.php';
 
 $logs = explode("\n", file_get_contents('fixtures/access.log'));
 

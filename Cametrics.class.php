@@ -1,9 +1,7 @@
 <?php
 
 class Cametrics
-{
-    public static $version = 0.01;
-    
+{    
     private static $instance = null;
     public static $axes = array(
         'x' => array('lng', 'longitude', 'x'),
@@ -16,7 +14,7 @@ class Cametrics
         'url.host' => 'cametrics.appspot.com',
         'namespace.separators' => '/[^a-zA-Z0-9]+/',
         'response.format' => 'json',
-        'request.size' => 50,
+        'request.size' => 250,
     );
     const DATETIME_FORMAT = 'Y-m-d H:i:s';
     
@@ -34,11 +32,28 @@ class Cametrics
         }
     }
     
+    public static function getOptions()
+    {
+        return Cametrics::getInstance()->options;
+    }
+    
+    public static function getSecretKey()
+    {
+        $options = Cametrics::getOptions();
+        return $options['secret.key'];
+    }
+    
+    public static function getURL()
+    {
+        $options = Cametrics::getOptions();
+        return "{$options['url.protocol']}://{$options['url.host']}/measure/{$options['secret.key']}/";
+    }
+    
     protected function _post_data()
     {
         if (!$this->options['secret.key']) throw CametricsException('No Secret Key Specified. Use '.get_class(self).'::initialize');
         
-        $uri = "{$this->options['url.protocol']}://{$this->options['url.host']}/measure/{$this->options['secret.key']}/";
+        $uri = Cametrics::getURL();
         syslog(LOG_NOTICE, sprintf('Cametrics posting: %s', $uri));
         
         $this->browser->post($uri, array(
